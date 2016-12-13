@@ -100,32 +100,35 @@ public class ReportProblemOpen311Test extends AndroidTestCase {
         // Mark the services that are transit-related
         boolean mIsAllTransitHeuristicMatch = ServiceUtils
                 .markTransitServices(getContext(), serviceList);
-        assertTrue(mIsAllTransitHeuristicMatch);
 
-        int countGroupTransit = 0;
-        int countDynamicStop = 0;
-        int countDynamicTrip = 0;
-
-        for (Service s : serviceList) {
-            if (s.getGroup().equals(ReportConstants.ISSUE_GROUP_TRANSIT)) {
-                countGroupTransit++;
-            }
-            if (s.getType().equals(ReportConstants.DYNAMIC_TRANSIT_SERVICE_STOP)) {
-                countDynamicStop++;
-            }
-            if (s.getType().equals(ReportConstants.DYNAMIC_TRANSIT_SERVICE_TRIP)) {
-                countDynamicTrip++;
-            }
-        }
-
-        // We should be over the threshold of assuming that all services (request types) are transit-related
-        assertTrue(countGroupTransit >= ReportConstants.NUM_TRANSIT_SERVICES_THRESHOLD);
-
-        // Everything not arrival times related should be marked as dynamic stop
-        assertTrue(countDynamicStop >= ReportConstants.NUM_TRANSIT_SERVICES_THRESHOLD);
-
-        // There should only be one arrival times (trip) request type, because we treat that differently (show arrivals to pick from)
-        assertTrue(countDynamicTrip == 1);
+        // TODO - uncomment the below code block when HART goes into production with SeeClickFix
+        // See https://github.com/OneBusAway/onebusaway-android/pull/721#issuecomment-266875136
+//        assertTrue(mIsAllTransitHeuristicMatch);
+//
+//        int countGroupTransit = 0;
+//        int countDynamicStop = 0;
+//        int countDynamicTrip = 0;
+//
+//        for (Service s : serviceList) {
+//            if (s.getGroup().equals(ReportConstants.ISSUE_GROUP_TRANSIT)) {
+//                countGroupTransit++;
+//            }
+//            if (s.getType().equals(ReportConstants.DYNAMIC_TRANSIT_SERVICE_STOP)) {
+//                countDynamicStop++;
+//            }
+//            if (s.getType().equals(ReportConstants.DYNAMIC_TRANSIT_SERVICE_TRIP)) {
+//                countDynamicTrip++;
+//            }
+//        }
+//
+//        // We should be over the threshold of assuming that all services (request types) are transit-related
+//        assertTrue(countGroupTransit >= ReportConstants.NUM_TRANSIT_SERVICES_THRESHOLD);
+//
+//        // Everything not arrival times related should be marked as dynamic stop
+//        assertTrue(countDynamicStop >= ReportConstants.NUM_TRANSIT_SERVICES_THRESHOLD);
+//
+//        // There should only be one arrival times (trip) request type, because we treat that differently (show arrivals to pick from)
+//        assertTrue(countDynamicTrip == 1);
     }
 
     /**
