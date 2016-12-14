@@ -46,13 +46,12 @@ android:
 before_script:
   # Create and start emulator
   - echo no | android create avd --force -n test -t "android-"$EMULATOR_API_LEVEL --abi $ANDROID_ABI --tag $ANDROID_TAG
-  - emulator -avd test -no-skin -no-window &
+  - travis_wait 60 emulator -avd test -no-skin -no-window &
   - android-wait-for-emulator
 
 # Only run tests on the main two OneBusAway brand flavors
 script:
-  - travis_wait 60 ./gradlew connectedObaGoogleDebugAndroidTest -PdisablePreDex
-  - travis_wait 60 ./gradlew connectedObaAmazonDebugAndroidTest -PdisablePreDex
+  - travis_wait 60 ./gradlew connectedObaGoogleDebugAndroidTest connectedObaAmazonDebugAndroidTest -PdisablePreDex
 
 notifications:
   webhooks:
