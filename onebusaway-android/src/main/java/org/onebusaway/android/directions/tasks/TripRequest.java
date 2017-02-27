@@ -174,6 +174,7 @@ public class TripRequest extends AsyncTask<Request, Integer, Long> {
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setConnectTimeout(HTTP_CONNECTION_TIMEOUT);
             urlConnection.setReadTimeout(HTTP_SOCKET_TIMEOUT);
+            //urlConnection.setRequestProperty("Accept", "application/xml");
             plan = JacksonConfig.getObjectReaderInstance()
                     .readValue(urlConnection.getInputStream());
 

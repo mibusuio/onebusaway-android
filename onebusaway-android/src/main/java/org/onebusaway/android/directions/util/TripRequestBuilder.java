@@ -157,7 +157,7 @@ public class TripRequestBuilder {
                 modes = Arrays.asList(TraverseMode.TRANSIT, TraverseMode.WALK);
                 break;
             case R.string.transit_mode_bus:
-                modes = Arrays.asList(TraverseMode.BUSISH, TraverseMode.WALK);
+                modes = Arrays.asList(TraverseMode.TRANSIT, TraverseMode.WALK);
                 break;
             case R.string.transit_mode_rail:
                 modes = Arrays.asList(TraverseMode.TRAINISH, TraverseMode.WALK);

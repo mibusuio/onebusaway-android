@@ -31,7 +31,8 @@ public class ObaContext {
 
     private static final String TAG = "ObaContext";
 
-    private String mApiKey = "v1_BktoDJ2gJlu6nLM6LsT9H8IUbWc=cGF1bGN3YXR0c0BnbWFpbC5jb20=";
+    //TODO key place be dinamic with buildConfig or something safety
+    private String mApiKey = "test";
 
     private int mAppVer = 0;
 

@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 /**
  * Analytics class for tracking the app
@@ -173,6 +174,7 @@ public class ObaAnalytics {
      */
     public static void reportActivityStart(Activity activity) {
         if (isAnalyticsActive()) {
+            Log.d("Analitycs", "send report to analitics " + Application.TrackerName.APP_TRACKER);
             Tracker tracker = Application.get().getTracker(Application.TrackerName.APP_TRACKER);
             tracker.setScreenName(activity.getClass().getSimpleName());
             tracker.send(new HitBuilders.ScreenViewBuilder().build());
