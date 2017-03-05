@@ -24,6 +24,7 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
+apply from: "../../node_modules/react-native/react.gradle"
 
 repositories {
     jcenter()
@@ -39,12 +40,6 @@ repositories {
         // CUTR Releases
         url "https://github.com/CUTR-at-USF/cutr-mvn-repo/raw/master/snapshots"
     }
-
-    maven {  // All of React Native (JS, Android binaries) is installed from npm
-        url "$rootDir/../../node_modules/react-native/android"
-    }
-
-
     }
 
 android {
@@ -378,5 +373,5 @@ dependencies {
     // Amazon Maps (only for Amazon flavor)
     amazonCompile 'com.amazon.android:amazon-maps-api:2.0'
 
-    compile "com.facebook.react:react-native:+"
+    compile "com.facebook.react:react-native:0.42.0"
 }

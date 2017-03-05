@@ -60,6 +60,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.onebusaway.android.BuildConfig;
+import org.onebusaway.android.MyReactActivity;
 import org.onebusaway.android.R;
 import org.onebusaway.android.app.Application;
 import org.onebusaway.android.io.ObaAnalytics;
@@ -449,11 +450,13 @@ public class HomeActivity extends AppCompatActivity
                                 getString(R.string.analytics_label_button_press_settings));
                 break;
             case NAVDRAWER_ITEM_HELP:
-                showDialog(HELP_DIALOG);
+               /* showDialog(HELP_DIALOG);
                 ObaAnalytics
                         .reportEventWithCategory(ObaAnalytics.ObaEventCategory.UI_ACTION.toString(),
                                 getString(R.string.analytics_action_button_press),
-                                getString(R.string.analytics_label_button_press_help));
+                                getString(R.string.analytics_label_button_press_help));*/
+                Intent intent = new Intent(this, MyReactActivity.class);
+                startActivity(intent);
                 break;
             case NAVDRAWER_ITEM_SEND_FEEDBACK:
                 ObaAnalytics.reportEventWithCategory(ObaAnalytics.ObaEventCategory.UI_ACTION.toString(),
