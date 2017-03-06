@@ -44,7 +44,13 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.facebook.react.ReactApplication;
+import com.facebook.react.ReactNativeHost;
+import com.facebook.react.ReactPackage;
+import com.facebook.react.shell.MainReactPackage;
+
 import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -55,7 +61,7 @@ import edu.usf.cutr.open311client.models.Open311Option;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
-public class Application extends android.app.Application {
+public class Application extends android.app.Application  implements ReactApplication {
 
     public static final String APP_UID = "app_uid";
 
@@ -557,4 +563,24 @@ public class Application extends android.app.Application {
                 getString(R.string.analytics_action_edit_general), getString(R.string.analytics_label_region_auto)
                         + (autoRegion ? "YES" : "NO"));
     }
+
+
+    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+        @Override
+        public boolean getUseDeveloperSupport() {
+            return true;
+        }
+
+        @Override
+        public List<ReactPackage> getPackages() {
+            return Arrays.<ReactPackage>asList(
+                    new MainReactPackage()
+            );
+        }
+    };
+
+        @Override
+        public ReactNativeHost getReactNativeHost() {
+            return mReactNativeHost;
+        }
 }

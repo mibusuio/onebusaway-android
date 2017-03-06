@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -57,11 +58,16 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.onebusaway.android.BuildConfig;
+import org.onebusaway.android.HelloFragment;
 import org.onebusaway.android.MyReactActivity;
 import org.onebusaway.android.R;
+import org.onebusaway.android.ReactNativeFragment;
 import org.onebusaway.android.app.Application;
 import org.onebusaway.android.io.ObaAnalytics;
 import org.onebusaway.android.io.elements.ObaRegion;
@@ -99,7 +105,15 @@ import static org.onebusaway.android.ui.NavigationDrawerFragment.NavigationDrawe
 public class HomeActivity extends AppCompatActivity
         implements BaseMapFragment.OnFocusChangedListener,
         BaseMapFragment.OnProgressBarChangedListener,
-        ArrivalsListFragment.Listener, NavigationDrawerCallbacks, ObaRegionsTask.Callback {
+        ArrivalsListFragment.Listener, NavigationDrawerCallbacks, ObaRegionsTask.Callback, DefaultHardwareBackBtnHandler {
+
+
+    private ReactInstanceManager mReactInstanceManager;
+
+    @Override
+    public void invokeDefaultOnBackPressed() {
+        super.onBackPressed();
+    }
 
     interface SlidingPanelController {
 
@@ -181,6 +195,9 @@ public class HomeActivity extends AppCompatActivity
     MyStarredStopsFragment mMyStarredStopsFragment;
 
     BaseMapFragment mMapFragment;
+
+
+    HelloFragment helloFragment;
 
     MyRemindersFragment mMyRemindersFragment;
 
@@ -330,6 +347,9 @@ public class HomeActivity extends AppCompatActivity
                 ShowcaseViewUtils.showTutorial(ShowcaseViewUtils.TUTORIAL_WELCOME, this, null);
             }
         }
+
+        mReactInstanceManager =
+                ((Application) getApplication()).getReactNativeHost().getReactInstanceManager();
     }
 
     @Override
@@ -358,6 +378,10 @@ public class HomeActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
+        if (mReactInstanceManager != null) {
+            mReactInstanceManager.onHostResume(this, this);
+        }
+
         // Make sure header has sliding panel state
         if (mArrivalsListHeader != null && mSlidingPanel != null) {
             mArrivalsListHeader.setSlidingPanelCollapsed(isSlidingPanelCollapsed());
@@ -370,6 +394,9 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         ShowcaseViewUtils.hideShowcaseView();
+        if (mReactInstanceManager != null) {
+            mReactInstanceManager.onHostPause();
+        }
         super.onPause();
     }
 
@@ -455,8 +482,9 @@ public class HomeActivity extends AppCompatActivity
                         .reportEventWithCategory(ObaAnalytics.ObaEventCategory.UI_ACTION.toString(),
                                 getString(R.string.analytics_action_button_press),
                                 getString(R.string.analytics_label_button_press_help));*/
-                Intent intent = new Intent(this, MyReactActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(this, MyReactActivity.class);
+                startActivity(intent);*/
+                showReactNativeFragment();
                 break;
             case NAVDRAWER_ITEM_SEND_FEEDBACK:
                 ObaAnalytics.reportEventWithCategory(ObaAnalytics.ObaEventCategory.UI_ACTION.toString(),
@@ -510,6 +538,36 @@ public class HomeActivity extends AppCompatActivity
         }
         setTitle(getResources().getString(R.string.navdrawer_item_nearby));
     }
+
+    private void showReactNativeFragment() {
+
+
+        FragmentManager fm = getSupportFragmentManager();
+
+        hideMapFragment();
+        hideMyLocationButton();
+        hideMapProgressBar();
+        hideMapFragment();
+        hideReminderFragment();
+        hideSlidingPanel();
+        hideStarredStopsFragment();
+        mShowStarredStopsMenu = false;
+
+        if (helloFragment == null) {
+            // First check to see if an instance of BaseMapFragment already exists (see #356)
+            helloFragment = (HelloFragment) fm.findFragmentByTag(HelloFragment.TAG);
+
+            if (helloFragment == null) {
+                // No existing fragment was found, so create a new one
+                Log.d(TAG, "Creating new BaseMapFragment");
+                helloFragment = HelloFragment.newInstance();
+                fm.beginTransaction()
+                        .add(R.id.main_fragment_container, helloFragment, HelloFragment.TAG)
+                        .commit();
+            }
+        }
+    }
+
 
     private void showStarredStopsFragment() {
         FragmentManager fm = getSupportFragmentManager();
