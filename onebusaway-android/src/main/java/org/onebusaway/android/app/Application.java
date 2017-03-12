@@ -22,6 +22,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.onebusaway.android.BuildConfig;
+import org.onebusaway.android.MibusReactPackage;
 import org.onebusaway.android.R;
 import org.onebusaway.android.io.ObaAnalytics;
 import org.onebusaway.android.io.ObaApi;
@@ -48,6 +49,7 @@ import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.facebook.soloader.SoLoader;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -108,6 +110,7 @@ public class Application extends android.app.Application  implements ReactApplic
 
         ObaAnalytics.initAnalytics(this);
         reportAnalytics();
+        SoLoader.init(this, /* native exopackage */ false);
     }
 
     /**
@@ -574,7 +577,9 @@ public class Application extends android.app.Application  implements ReactApplic
         @Override
         public List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
+                    new MibusReactPackage(),
                     new MainReactPackage()
+
             );
         }
     };

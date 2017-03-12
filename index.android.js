@@ -10,6 +10,8 @@ import {
   Alert
 } from 'react-native';
 
+import LoginScreen from "./react-app/login";
+
 class HelloWorld extends React.Component {
   render() {
     
@@ -38,6 +40,20 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
+  loginContainer: {
+    flex: 1
+  }
 });
 
+class LoginComponent extends React.Component {
+  render() {
+    return(
+    <View style={styles.loginContainer}>
+            <LoginScreen />
+    </View>
+    )
+  }
+}
+
 AppRegistry.registerComponent('HelloWorld', () => HelloWorld);
+AppRegistry.registerComponent('LoginScreen', () => LoginComponent);

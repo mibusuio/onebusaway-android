@@ -2,6 +2,7 @@ package org.onebusaway.android;
 
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -17,6 +18,8 @@ import com.facebook.react.ReactRootView;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
+
+import org.onebusaway.android.ui.HomeActivity;
 
 /**
  * Created by f3r10 on 4/3/17.
@@ -48,11 +51,12 @@ public class MyReactActivity extends AppCompatActivity implements DefaultHardwar
                 .setBundleAssetName("index.android.bundle")
                 .setJSMainModuleName("index.android")
                 .addPackage(new MainReactPackage())
+                .addPackage(new MibusReactPackage())
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .setUseDeveloperSupport(true)
                 .build();
-        mReactRootView.startReactApplication(mReactInstanceManager, "HelloWorld", null);
+        mReactRootView.startReactApplication(mReactInstanceManager, "LoginScreen", null);
 
         setContentView(mReactRootView);
     }
@@ -113,5 +117,10 @@ public class MyReactActivity extends AppCompatActivity implements DefaultHardwar
                 }
             }
         }
+    }
+
+    public static Intent makeIntent(Context context){
+        Intent myIntent = new Intent(context, HomeActivity.class);
+        return  myIntent;
     }
 }
