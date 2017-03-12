@@ -1,0 +1,16 @@
+{
+  "name": "mibusuio-android-react-native",
+  "version": "0.0.1",
+  "description": "public trasnportation proyect ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^15.4.2",
+    "react-native": "0.42.0"
+  }
+}
